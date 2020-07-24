@@ -12,6 +12,9 @@ app.set('view engine', 'pug');
 // Add views
 app.set('views', path.join(__dirname, './views'));
 
+// Loading public folder
+app.use(express.static('public'));
+
 // Loading routes
 app.use('/', routes());
 
