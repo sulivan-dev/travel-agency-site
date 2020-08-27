@@ -3,9 +3,17 @@ const express = require('express');
 const path = require('path');
 const routes = require('./routes');
 const configs = require('./config');
+const db = require('./config/database');
+
+require('dotenv').config({path: '.env'});
 
 // Express configuration
 const app = express();
+
+// Test database connection
+db.authenticate()
+  .then(() => console.log('Connection Succesfully'))
+  .catch(error => console.log(error));
 
 // Enable Pug
 app.set('view engine', 'pug');
@@ -27,10 +35,10 @@ app.use((req, res, next) => {
 // Loading routes
 app.use('/', routes());
 
-// Environment validate
+// Validating environment
 const config = configs[app.get('env')];
 
 // Create variable to website
 app.locals.appName = config.appName;
 
-app.listen(3000);
+app.listen(process.env.PORT);

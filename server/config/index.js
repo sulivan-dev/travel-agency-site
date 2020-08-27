@@ -1,8 +1,10 @@
+require('dotenv').config({path: '.env'});
+
 module.exports = {
   development: {
-    appName: "Agencia de Viajes [Desarrollo]"
+    appName: `${process.env.APP_NAME} [Desarrollo]`
   },
   production: {
-    appName: "Agencia de Viajes"
+    appName: `${process.env.APP_NAME}`
   }
 }
