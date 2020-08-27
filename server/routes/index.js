@@ -12,5 +12,11 @@ module.exports = function() {
      });
   });
 
+  router.get('/viajes', (req, res) => {
+    res.render('travels', {
+      page: 'Próximos Viajes'
+    })
+  })
+
   return router;
 }

@@ -1,19 +1,12 @@
-// Import express
 const express = require('express');
 const path = require('path');
 const routes = require('./routes');
 const configs = require('./config');
-const db = require('./config/database');
 
 require('dotenv').config({path: '.env'});
 
 // Express configuration
 const app = express();
-
-// Test database connection
-db.authenticate()
-  .then(() => console.log('Connection Succesfully'))
-  .catch(error => console.log(error));
 
 // Enable Pug
 app.set('view engine', 'pug');
