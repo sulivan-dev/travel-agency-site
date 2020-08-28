@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const Travel = require('../models/travels');
+
 module.exports = function() {
   router.get('/', (req, res) => {
     res.render('index');
@@ -13,10 +15,21 @@ module.exports = function() {
   });
 
   router.get('/viajes', (req, res) => {
-    res.render('travels', {
-      page: 'Próximos Viajes'
-    })
-  })
+    Travel.findAll()
+      .then(travels => res.render('travels', {
+        page: 'Próximos Viajes',
+        travels,
+      }))
+      .catch(error => console.log(error));
+  });
+
+  router.get('/viajes/:id', (req, res) => {
+    Travel.findByPk(req.params.id)
+      .then(travel => res.render('travel', {
+        travel
+      }))
+      .catch(error => console.log(error));
+  });
 
   return router;
 }
