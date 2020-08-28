@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 
-const Travel = require('../models/travels');
+// Models
+const Travel = require('../models/Travel');
+const Testimonial = require('../models/Testimonial');
 
 module.exports = function() {
   router.get('/', (req, res) => {
@@ -26,9 +28,48 @@ module.exports = function() {
   router.get('/viajes/:id', (req, res) => {
     Travel.findByPk(req.params.id)
       .then(travel => res.render('travel', {
-        travel
+        travel,
       }))
       .catch(error => console.log(error));
+  });
+
+  router.get('/testimoniales', (req, res) => {
+    Testimonial.findAll()
+      .then(testimonials => res.render('testimonials', {
+        page: 'Testimoniales',
+        testimonials,
+      }))
+      .catch(error => console.log(error));
+  });
+
+  router.post('/testimoniales', (req, res) => {
+    let { full_name, email, comment } = req.body;
+    let errors = [];
+
+    if (!full_name) {
+      errors.push({'message': 'Agrega tu nombre'});
+    }
+
+    if (!email) {
+      errors.push({'message': 'Agrega tu correo'});
+    }
+
+    if (!comment) {
+      errors.push({'message': 'Agrega tu comentario'});
+    }
+
+    if (errors.length > 0) {
+      res.render('testimonials', {
+        errors,
+        full_name,
+        email,
+        comment,
+      });
+    } else {
+      Testimonial.create({full_name, email, comment})
+      .then(testimonial => res.redirect('/testimoniales'))
+      .catch(error => console.log(error));
+    }
   });
 
   return router;
