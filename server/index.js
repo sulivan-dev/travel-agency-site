@@ -18,10 +18,11 @@ app.set('views', path.join(__dirname, './views'));
 // Loading public folder
 app.use(express.static('public'));
 
-// Showing current year
+// Showing current year and route
 app.use((req, res, next) => {
   // Create a new date in locals variables (res.locals)
   res.locals.currentYear = new Date().getFullYear();
+  res.locals.route = req.path;
 
   return next();
 });

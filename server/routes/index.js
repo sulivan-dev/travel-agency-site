@@ -7,7 +7,20 @@ const Testimonial = require('../models/Testimonial');
 
 module.exports = function() {
   router.get('/', (req, res) => {
-    res.render('index');
+    const promises = [];
+    promises.push(
+      Travel.findAll({limit: 3}),
+      Testimonial.findAll({limit: 3}),
+    );
+
+    const results = Promise.all(promises);
+    results.then(result => res.render('index', {
+      page: 'Próximos Viajes',
+      classes: 'home',
+      travels: result[0],
+      testimonials: result[1],
+    }))
+    .catch(error => console.log(error));
   });
 
   router.get('/nosotros', (req, res) => {

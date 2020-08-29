@@ -9,7 +9,8 @@ html(lang="en")
     link(rel="stylesheet", href="/css/styles.css")
 
     title #{appName} | #{page}
-  body
+  body(class=classes)
     include includes/header
+    block slider
     block content
     include includes/footer
