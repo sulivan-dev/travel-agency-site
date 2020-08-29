@@ -39,4 +39,8 @@ const config = configs[app.get('env')];
 // Create variable to website
 app.locals.appName = config.appName;
 
-app.listen(process.env.PORT);
+// Host and Port
+const host = process.env.HOST || '0.0.0.0';
+const port = process.env.PORT || 3000;
+
+app.listen(port, host, () => console.log('Server started!'));
